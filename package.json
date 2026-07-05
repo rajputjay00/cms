@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "git-fix": "git config user.name \"rajputjay00\" && git config user.email \"jayrajput@example.com\""
   },
   "dependencies": {
     "lucide-react": "^1.23.0",
