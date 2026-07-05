@@ -28,7 +28,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       ) : (
         <div className="flex flex-col md:flex-row min-h-screen relative z-10">
           {/* Desktop Left Sidebar drawer component wrapper container - hidden on mobile */}
-          <div className="hidden md:block shrink-0">
+          <div className="hidden md:block shrink-0 relative z-50">
             <Sidebar />
           </div>
 
