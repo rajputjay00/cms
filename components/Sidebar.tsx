@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@/context/ThemeContext";
 
-// FIXED: Changed Dashboard href from "/" to "/student" to persist the logged-in session context
+// FIXED: Kept Dashboard pointing to your active layout subpath, but linked the remaining routes to where they sit in your file tree
 const navItems = [
   {
     name: "Dashboard", href: "/student", icon: (active: boolean) => (
@@ -15,28 +15,28 @@ const navItems = [
     )
   },
   {
-    name: "Attendance", href: "/student/attendance", icon: (active: boolean) => (
+    name: "Attendance", href: "/attendance", icon: (active: boolean) => (
       <svg className={`h-5 w-5 transition-colors ${active ? 'text-blue-500' : 'text-slate-400 dark:text-slate-500 group-hover:text-blue-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
       </svg>
     )
   },
   {
-    name: "MST Marks", href: "/student/marks", icon: (active: boolean) => (
+    name: "MST Marks", href: "/marks", icon: (active: boolean) => (
       <svg className={`h-5 w-5 transition-colors ${active ? 'text-blue-500' : 'text-slate-400 dark:text-slate-500 group-hover:text-blue-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     )
   },
   {
-    name: "Assignments", href: "/student/assignments", icon: (active: boolean) => (
+    name: "Assignments", href: "/assignments", icon: (active: boolean) => (
       <svg className={`h-5 w-5 transition-colors ${active ? 'text-blue-500' : 'text-slate-400 dark:text-slate-500 group-hover:text-blue-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
       </svg>
     )
   },
   {
-    name: "Doubt Forum", href: "/student/forum", icon: (active: boolean) => (
+    name: "Doubt Forum", href: "/forum", icon: (active: boolean) => (
       <svg className={`h-5 w-5 transition-colors ${active ? 'text-blue-500' : 'text-slate-400 dark:text-slate-500 group-hover:text-blue-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
       </svg>
@@ -51,12 +51,12 @@ export default function Sidebar() {
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
-  // FIXED: Adjusted layout subpath pattern tracking parameters
+  // FIXED: Normalized active link highlighting matching strategy
   const isLinkActive = (href: string) => {
     if (href === "/student") {
       return pathname === "/student";
     }
-    return pathname === href;
+    return pathname.startsWith(href);
   };
 
   const SidebarContent = () => (
@@ -83,8 +83,8 @@ export default function Sidebar() {
                 href={item.href}
                 onClick={() => setIsOpen(false)}
                 className={`group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 border-l-2 ${active
-                    ? "bg-gradient-to-r from-blue-500/10 to-indigo-500/10 text-blue-600 dark:text-blue-400 border-blue-500 font-semibold shadow-inner shadow-blue-500/5"
-                    : "text-slate-600 dark:text-slate-400 border-transparent hover:bg-slate-100/50 dark:hover:bg-slate-900/40 hover:text-slate-900 dark:hover:text-slate-100 hover:border-slate-300 dark:hover:border-slate-700"
+                  ? "bg-gradient-to-r from-blue-500/10 to-indigo-500/10 text-blue-600 dark:text-blue-400 border-blue-500 font-semibold shadow-inner shadow-blue-500/5"
+                  : "text-slate-600 dark:text-slate-400 border-transparent hover:bg-slate-100/50 dark:hover:bg-slate-900/40 hover:text-slate-900 dark:hover:text-slate-100 hover:border-slate-300 dark:hover:border-slate-700"
                   }`}
               >
                 <span className="mr-3">{item.icon(active)}</span>
@@ -132,7 +132,7 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile Top Navigation Bar - FIXED: Added concrete high-level z-index and solid background properties to prevent text bleeding */}
+      {/* Mobile Top Navigation Bar */}
       <div className="lg:hidden flex items-center justify-between p-4 bg-slate-50/90 dark:bg-slate-950/95 backdrop-blur-md sticky top-0 z-50 w-full border-b border-slate-200/50 dark:border-slate-800/50">
         <div className="flex items-center bg-white/95 dark:bg-white/95 rounded-lg border border-slate-200/50 dark:border-slate-800/80 px-2.5 py-1 shadow-sm">
           <img
@@ -165,7 +165,7 @@ export default function Sidebar() {
         />
       )}
 
-      {/* Mobile Navigation Drawer - FIXED: Added absolute solid backdrop panel styles */}
+      {/* Mobile Navigation Drawer */}
       <div
         className={`lg:hidden fixed top-0 bottom-0 left-0 z-50 w-72 bg-white/95 dark:bg-slate-950/98 backdrop-blur-md border-r border-slate-200/50 dark:border-slate-800/50 p-6 shadow-2xl transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
           }`}
@@ -173,7 +173,7 @@ export default function Sidebar() {
         <SidebarContent />
       </div>
 
-      {/* Desktop Persistent Sidebar - FIXED: Normalized stacking layers context */}
+      {/* Desktop Persistent Sidebar */}
       <div className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 lg:z-30 bg-slate-50/40 dark:bg-slate-900/20 backdrop-blur-md border border-slate-200/40 dark:border-slate-800/40 p-6 m-4 h-[calc(100vh-2rem)] rounded-2xl shadow-sm">
         <SidebarContent />
       </div>
