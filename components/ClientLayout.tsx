@@ -26,14 +26,16 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
           {children}
         </main>
       ) : (
-        <div className="flex flex-col md:flex-row min-h-screen relative z-10">
-          {/* Desktop Left Sidebar drawer component wrapper container - hidden on mobile */}
-          <div className="hidden md:block shrink-0 relative z-50">
+        // FIXED: Changed responsive layout target breakpoint context to lg to align perfectly with Sidebar.tsx
+        <div className="flex flex-col lg:flex-row min-h-screen relative z-10">
+
+          {/* Desktop Left Sidebar drawer component wrapper container - FIXED: Swapped md:block to lg:block */}
+          <div className="hidden lg:block shrink-0 relative z-50">
             <Sidebar />
           </div>
 
-          {/* Main Content Area - with mobile bottom navigation padding adjustment */}
-          <main className="flex-1 md:pl-72 p-4 lg:p-6 pb-20 md:pb-6 w-full transition-all duration-300 animate-page-entrance">
+          {/* Main Content Area - FIXED: Changed desktop padding breakpoint offset from md:pl-72 to lg:pl-72 to sit perfectly in line */}
+          <main className="flex-1 lg:pl-72 p-4 lg:p-6 pb-20 lg:pb-6 w-full transition-all duration-300 animate-page-entrance">
             <div className="max-w-7xl mx-auto h-full">
               {children}
             </div>
@@ -41,38 +43,36 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
         </div>
       )}
 
-      {/* Brand New Mobile Bottom Navbar component - visible ONLY on mobile/tablet */}
+      {/* Brand New Mobile Bottom Navbar component - FIXED: Visible ONLY below lg breakpoint to match the layout rules */}
       {!isLoginPage && (
-        <div className="block md:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-lg border-t border-slate-800/60 p-3 flex justify-around items-center rounded-t-xl shadow-2xl animate-page-entrance select-none">
+        <div className="block lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-lg border-t border-slate-800/60 p-3 flex justify-around items-center rounded-t-xl shadow-2xl animate-page-entrance select-none">
           {/* Dashboard Anchor */}
-          <Link 
-            href={dashboardHref} 
-            className={`flex flex-col items-center justify-center gap-1.5 transition-all duration-200 ${
-              pathname === dashboardHref 
-                ? "text-blue-400 scale-105 font-bold" 
+          <Link
+            href={dashboardHref}
+            className={`flex flex-col items-center justify-center gap-1.5 transition-all duration-200 ${pathname === dashboardHref
+                ? "text-blue-400 scale-105 font-bold"
                 : "text-slate-400 hover:text-slate-200"
-            }`}
+              }`}
           >
             <LayoutDashboard className="h-5 w-5" />
             <span className="text-[10px]">Dashboard</span>
           </Link>
 
           {/* Marks Anchor */}
-          <Link 
-            href="/marks" 
-            className={`flex flex-col items-center justify-center gap-1.5 transition-all duration-200 ${
-              pathname === "/marks" 
-                ? "text-blue-400 scale-105 font-bold" 
+          <Link
+            href="/marks"
+            className={`flex flex-col items-center justify-center gap-1.5 transition-all duration-200 ${pathname === "/marks"
+                ? "text-blue-400 scale-105 font-bold"
                 : "text-slate-400 hover:text-slate-200"
-            }`}
+              }`}
           >
             <Award className="h-5 w-5" />
             <span className="text-[10px]">Marks</span>
           </Link>
 
           {/* Logout Anchor */}
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="flex flex-col items-center justify-center gap-1.5 text-slate-400 hover:text-rose-500 transition-all duration-200"
           >
             <LogOut className="h-5 w-5" />
@@ -82,8 +82,8 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       )}
 
       {/* Floating System Status & Accessibility Control Pill */}
-      <div className="fixed bottom-4 right-4 md:bottom-4 md:right-4 z-[9999] backdrop-blur-xl bg-slate-900/60 dark:bg-slate-950/60 border border-slate-300/10 dark:border-slate-800/80 p-2 rounded-full flex items-center gap-2.5 shadow-2xl transition-all duration-300 max-md:hidden">
-        
+      <div className="fixed bottom-4 right-4 lg:bottom-4 lg:right-4 z-[9999] backdrop-blur-xl bg-slate-900/60 dark:bg-slate-950/60 border border-slate-300/10 dark:border-slate-800/80 p-2 rounded-full flex items-center gap-2.5 shadow-2xl transition-all duration-300 max-lg:hidden">
+
         {/* Toggle Theme button */}
         <button
           onClick={toggleTheme}
@@ -99,7 +99,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
         {/* Network Status Badge */}
         <div className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono px-2.5 py-0.5 rounded-full animate-pulse flex items-center gap-1.5 font-bold">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-450" />
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
           <span>Network: Online</span>
         </div>
 
